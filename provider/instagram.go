@@ -26,7 +26,7 @@ func (p *Instagram) Configure(c map[string]string) {
 	p.config = c
 }
 
-func (p *Instagram) Request(tag string, n uint) (map[string]string, error) {
+func (p *Instagram) Request(tag string, n uint) (ProviderResponse, error) {
 	fmt.Printf("Instagram.Request(%s, %d)\n", tag, n)
 	return nil, nil
 }

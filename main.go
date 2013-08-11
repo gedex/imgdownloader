@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
@@ -16,7 +17,8 @@ var (
 	tag            = flag.String("tag", "", "Image tag")
 	n              = flag.Uint("n", 10, "Number of images to download")
 	providerString = flag.String("from", "flickr", "Image provider (flickr or instagram)")
-	out            = flag.String("out", "./", "Path to downloaded images")
+	out            = flag.String("out", "", "Path to downloaded images")
+	worker         = flag.Uint("worker", 10, "Number of workers downloading the images")
 
 	// Active config is stored here
 	activeConf config
@@ -53,21 +55,42 @@ func main() {
 		os.Exit(1)
 	}
 
-	downloads := make(chan string, len(listToDownload))
-	for filename, link := range listToDownload {
-		go download(link, filename, downloads)
+	downloads := make(chan *provider.ProviderItem, len(listToDownload))
+	results := make(chan string, len(listToDownload))
+
+	numberOfDownloaders := int(*worker)
+	for d := 1; d <= numberOfDownloaders; d++ {
+		go downloader(downloads, results)
 	}
 
-	for d := range downloads {
-		fmt.Println(d)
+	for _, item := range listToDownload {
+		downloads <- item
 	}
 	close(downloads)
+
+	for r := 1; r <= len(listToDownload); r++ {
+		fmt.Println(<-results)
+	}
 }
 
 func checkParams() error {
 	if *tag == "" {
 		return fmt.Errorf("Tag is not supplied")
 	}
+	_, err := ioutil.ReadDir(*out)
+	if err != nil {
+		switch {
+		case os.IsNotExist(err):
+			// Try to make the dir first
+			err = os.Mkdir(*out, os.ModeDir|os.ModePerm)
+			if err != nil {
+				return err
+			}
+		default:
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -146,22 +169,33 @@ func readFileConfig(file *os.File) (config, error) {
 	return c, nil
 }
 
-func download(link, filename string, downloads chan<- string) {
-	resp, err := http.Get(link)
-	defer resp.Body.Close()
-	if err != nil {
-		downloads <- fmt.Sprintf("Error GET %v: %v", link, err)
-		return
-	}
+func downloader(downloads <-chan *provider.ProviderItem, results chan<- string) {
+	for d := range downloads {
+		resp, err := http.Get(d.Link)
+		defer resp.Body.Close()
+		if err != nil {
+			results <- fmt.Sprintf("Error GET %v: %v", d.Link, err)
+			continue
+		}
 
-	outFile := path.Join(*out, filename)
-	out, err := os.Create(outFile)
-	defer out.Close()
+		outFile := getOutFilePath(d.Filename)
+		out, err := os.Create(outFile)
+		if err != nil {
+			results <- fmt.Sprintf("Error creating %v: %v", out, err)
+			continue
+		}
+		defer out.Close()
 
-	_, err = io.Copy(out, resp.Body)
-	if err != nil {
-		downloads <- fmt.Sprintf("Error copying %v to %v", filename, outFile)
-		return
+		_, err = io.Copy(out, resp.Body)
+		if err != nil {
+			results <- fmt.Sprintf("Error copying %v to %v", d.Filename, outFile)
+			continue
+		}
+		results <- fmt.Sprintf("Successfully downloading %v to %v", d.Link, outFile)
 	}
-	downloads <- fmt.Sprintf("Successfully downloading %v to %v", link, outFile)
+}
+
+func getOutFilePath(filename string) string {
+	fileOut := path.Join(*out, filename)
+	return fileOut
 }

@@ -23,8 +23,18 @@ var (
 type Provider interface {
 	// Set configuration of this provider.
 	Configure(map[string]string)
-	// Request n links (to image) tagged with tag.
-	Request(tag string, n uint) (map[string]string, error)
+	// Request n links (to image) tagged with specified tag.
+	Request(tag string, n uint) (ProviderResponse, error)
+}
+
+// ProviderResponse represents Result that Provider provides,
+// a collection of ProviderItem.
+type ProviderResponse []*ProviderItem
+
+// ProviderItem represents a single entry of image link, that
+// can be downloaded, and expected filename to be stored locally.
+type ProviderItem struct {
+	Filename, Link string
 }
 
 func init() {
