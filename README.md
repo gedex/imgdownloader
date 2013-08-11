@@ -1,7 +1,7 @@
 imgdownloader
 =============
 
-Need thousand images for your project?
+Need hundred of images for your project?
 
 ## Install
 
