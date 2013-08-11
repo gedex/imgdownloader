@@ -1,0 +1,8 @@
+{
+	"flickr": {
+		"api_key": "266a8c1c620a81607a3db478565cf048"
+	},
+	"instagram": {
+		"access_token": "YOUR_ACCESS_TOKEN"
+	}
+}
