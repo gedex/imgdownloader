@@ -11,7 +11,7 @@ $ go install github.com/gedex/imgdownloader
 
 ## Usage
 
-* Download 1000 images, tagged with `cat,` from Flickr:
+* Download 1000 images, tagged with `cat`, from Flickr:
 
   ~~~text
   $ imgdownloader -tag cat -n 1000 -from flickr -o ./cats
