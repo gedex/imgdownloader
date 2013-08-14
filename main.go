@@ -17,7 +17,7 @@ var (
 	tag            = flag.String("tag", "", "Image tag")
 	n              = flag.Uint("n", 10, "Number of images to download")
 	providerString = flag.String("from", "flickr", "Image provider (flickr or instagram)")
-	out            = flag.String("out", "", "Path to downloaded images")
+	out            = flag.String("out", "./", "Path to downloaded images")
 	worker         = flag.Uint("worker", 10, "Number of workers downloading the images")
 
 	// Active config is stored here
