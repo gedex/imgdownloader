@@ -6,7 +6,7 @@ Need hundred of images for your project?
 ## Install
 
 ~~~text
-$ go install github.com/gedex/imgdownloader
+$ go get github.com/gedex/imgdownloader
 ~~~
 
 ## Usage
