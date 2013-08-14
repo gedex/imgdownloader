@@ -59,6 +59,9 @@ func main() {
 	results := make(chan string, len(listToDownload))
 
 	numberOfDownloaders := int(*worker)
+	if numberOfDownloaders > len(listToDownload) {
+		numberOfDownloaders = len(listToDownload)
+	}
 	for d := 1; d <= numberOfDownloaders; d++ {
 		go downloader(downloads, results)
 	}
