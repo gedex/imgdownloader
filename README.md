@@ -14,13 +14,13 @@ $ go install github.com/gedex/imgdownloader
 * Download 1000 images, tagged with `cat`, from Flickr:
 
   ~~~text
-  $ imgdownloader -tag cat -n 1000 -from flickr -o ./cats
+  $ imgdownloader -tag="cat" -n=1000 -from="flickr" -o="./cats"
   ~~~
 
 * From Instagram:
 
   ~~~text
-  $ imgdownloader -tag cat -n 1000 -from instagram -o ./cats
+  $ imgdownloader -tag="cat" -n=1000 -from="instagram" -o="./cats"
   ~~~
 
 Currently, there are two providers: `flickr` and `instagram`. You specify
@@ -38,4 +38,11 @@ your `$HOME` directory with following format:
 		"access_token": "YOUR_ACCESS_TOKEN"
 	}
 }
+~~~
+
+To get Instagram's `access_token` you can use [ginsta](https://github.com/gedex/ginsta):
+
+~~~text
+$ go get github.com/gedex/ginsta
+$ ginsta token_get # Open localhost:8080 In your browser
 ~~~
