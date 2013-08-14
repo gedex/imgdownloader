@@ -175,11 +175,11 @@ func readFileConfig(file *os.File) (config, error) {
 func downloader(downloads <-chan *provider.ProviderItem, results chan<- string) {
 	for d := range downloads {
 		resp, err := http.Get(d.Link)
-		defer resp.Body.Close()
 		if err != nil {
 			results <- fmt.Sprintf("Error GET %v: %v", d.Link, err)
 			continue
 		}
+		defer resp.Body.Close()
 
 		outFile := getOutFilePath(d.Filename)
 		out, err := os.Create(outFile)
