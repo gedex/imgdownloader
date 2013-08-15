@@ -41,6 +41,7 @@ func init() {
 	providers = make(map[string]Provider)
 	providers["flickr"] = NewFlickr()
 	providers["instagram"] = NewInstagram()
+	providers["picasa"] = NewPicasa()
 }
 
 // Get gets provider of a given provider string.
