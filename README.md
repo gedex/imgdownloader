@@ -11,8 +11,6 @@ $ go get github.com/gedex/imgdownloader
 
 ## Usage
 
-<iframe src="http://showterm.io/03c3947a3833b3e0325fe#fast" frameborder="0" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%"></iframe>
-
 * Download 1000 images, tagged with `cat`, from Flickr:
 
   ~~~text
@@ -30,6 +28,9 @@ $ go get github.com/gedex/imgdownloader
   ~~~text
   $ imgdownloader -tag="cat" -n=1000 -from="picasa" -o="./cats"
   ~~~
+
+There's a [showterm of the usage](http://showterm.io/e7a51dad5d048e93d64b6#fast) if
+want to see imgdownloader in action.
 
 Currently, there are three providers: `flickr`, `instagram`, and `picasa`. You specify
 provider via `-from` parameter. Since getting list of images from providers
