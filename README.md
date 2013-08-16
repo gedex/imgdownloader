@@ -11,6 +11,8 @@ $ go get github.com/gedex/imgdownloader
 
 ## Usage
 
+<iframe src="http://showterm.io/03c3947a3833b3e0325fe#fast" frameborder="0" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%"></iframe>
+
 * Download 1000 images, tagged with `cat`, from Flickr:
 
   ~~~text
