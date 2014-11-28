@@ -14,19 +14,19 @@ $ go get github.com/gedex/imgdownloader
 * Download 1000 images, tagged with `cat`, from Flickr:
 
   ~~~text
-  $ imgdownloader -tag="cat" -n=1000 -from="flickr" -o="./cats"
+  $ imgdownloader -tag="cat" -n=1000 -from="flickr" -out="./cats"
   ~~~
 
 * From Instagram:
 
   ~~~text
-  $ imgdownloader -tag="cat" -n=1000 -from="instagram" -o="./cats"
+  $ imgdownloader -tag="cat" -n=1000 -from="instagram" -out="./cats"
   ~~~
 
 * From Google Picasa Web:
 
   ~~~text
-  $ imgdownloader -tag="cat" -n=1000 -from="picasa" -o="./cats"
+  $ imgdownloader -tag="cat" -n=1000 -from="picasa" -out="./cats"
   ~~~
 
 There's a [showterm of the usage](http://showterm.io/e7a51dad5d048e93d64b6#fast) if
